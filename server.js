@@ -5,22 +5,33 @@ var bodyParser = require( 'body-parser' );
 app.use( express.static( 'public' ) );
 app.use( bodyParser.urlencoded( { extended : true } ) );
 
-var buzzWords = [];
+var buzzArr = [];
 
 //========== Retrieves the current list of buzzWords that have been posted to the server
 app.get( '/buzzwords', function (req, res ) {
-  res.send( { buzzWords : buzzWords } );
+  res.send( { buzzWords : buzzArr } );
 });
 
-//========== Adds new buzzWords to the array
+//========== Adds new buzzWords to the array and avoids duplicate entries
 app.post( '/buzzword', function ( req, res ) {
-  buzzWords.push( {
-    buzzWord : req.body.buzzWord,
-    points : req.body.points,
-    heard : false
-  } );
-  res.send( { 'success' : true } );
-  console.log( buzzWords );
+  if ( buzzArr.length > 0 ) {
+    for( var i = 0; i < buzzArr.length; i++ ) {
+      if( buzzArr[i].buzzWord === req.body.buzzWord ) {
+        var message = {
+          'success' : false,
+          'message' : 'buzzWord has already been entered you greedy fuck, move along...'
+        };
+        return res.send(message);
+      }
+    }
+  }
+    buzzArr.push( {
+        buzzWord : req.body.buzzWord,
+        points : Number( req.body.points ),
+        heard : false
+      } );
+    res.send( { 'success' : true } );
+    console.log( buzzArr );
 });
 
 
