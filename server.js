@@ -3,10 +3,23 @@ var app = express();
 var bodyParser = require( 'body-parser');
 
 app.use( express.static( 'public' ) );
+app.use( bodyParser.urlencoded( { extended : true } ) );
 
+var buzzWords = [];
+  console.log( buzzWords );
 
-app.get( '/', function (req, res ) {
-  res.send( 'What up Chaz');
+app.get( '/buzzwords', function (req, res ) {
+  res.send( { buzzWords : buzzWords } );
+});
+
+app.post( '/buzzword', function ( req, res ) {
+  buzzWords.push( {
+    buzzWord : req.body.buzzWord,
+    points : req.body.points,
+    heard : false
+  });
+  res.send( { 'success' : true } );
+  console.log( buzzWords );
 });
 
 var server = app.listen( 7777, function () {
