@@ -2,6 +2,8 @@ var express = require( 'express' );
 var app = express();
 var bodyParser = require( 'body-parser');
 
+app.use( express.static( 'public' ) );
+
 
 app.get( '/', function (req, res ) {
   res.send( 'What up Chaz');
