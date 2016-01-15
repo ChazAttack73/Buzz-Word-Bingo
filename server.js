@@ -50,7 +50,6 @@ app.post( '/buzzword', function ( req, res ) {
 
 //========== Updates the buzzWord's 'heard' property to true and updates the score
 app.put( '/buzzword', function ( req, res ) {
-
   if ( buzzArr.length > 0 ) {
     for( var i = 0; i < buzzArr.length; i++ ) {
       if( buzzArr[i].buzzWord === req.body.buzzWord ) {
@@ -67,6 +66,12 @@ app.put( '/buzzword', function ( req, res ) {
   res.send( {
     'message' : 'There\'s nothing in the array you donkey!'
   } );
+});
+
+
+//========== Deletes a buzzWord from the array, taking it out of play
+app.delete( '/buzzword', function ( req, res ) {
+
 });
 
 
