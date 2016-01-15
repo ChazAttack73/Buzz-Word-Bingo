@@ -5,7 +5,7 @@ var app = express();
 var bodyParser = require( 'body-parser' );
 
 app.use( express.static( 'public' ) );
-app.use( bodyParser.urlencoded( { extended : true } ) );
+app.use( bodyParser.json({ type: 'application/json' } ) );
 
 
 var buzzArr = [];
@@ -57,7 +57,7 @@ app.put( '/buzzword', function ( req, res ) {
         score += buzzArr[i].points;
         var youScoredMessage = {
           'message' : 'Your wisdom is unsurpassed, bask in the glory of ' + buzzArr[i].points + ' points!',
-          'new score' : score
+          'new_score' : score
         };
         return res.send( youScoredMessage );
       }
