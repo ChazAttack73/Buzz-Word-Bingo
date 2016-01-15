@@ -9,11 +9,14 @@ app.use( bodyParser.urlencoded( { extended : true } ) );
 
 
 var buzzArr = [];
+var score = 0;
+
 
 //========== Retrieves the current list of buzzWords that have been posted to the server
 app.get( '/buzzwords', function (req, res ) {
   res.send( { BUZZWORDS : buzzArr } );
 });
+
 
 //========== Adds new buzzWords to the array and avoids duplicate entries
 app.post( '/buzzword', function ( req, res ) {
@@ -40,8 +43,30 @@ app.post( '/buzzword', function ( req, res ) {
       }
     }
   }
-    buzzArr.push( newBuzzWord );
-    res.send( successMessage );
+  buzzArr.push( newBuzzWord );
+  res.send( successMessage );
+});
+
+
+//========== Updates the buzzWord's 'heard' property to true and updates the score
+app.put( '/buzzword', function ( req, res ) {
+
+  if ( buzzArr.length > 0 ) {
+    for( var i = 0; i < buzzArr.length; i++ ) {
+      if( buzzArr[i].buzzWord === req.body.buzzWord ) {
+        buzzArr[i].heard = true;
+        score += buzzArr[i].points;
+        var youScoredMessage = {
+          'message' : 'Your wisdom is unsurpassed, bask in the glory of ' + buzzArr[i].points + ' points!',
+          'new score' : score
+        };
+        return res.send( youScoredMessage );
+      }
+    }
+  }
+  res.send( {
+    'message' : 'There\'s nothing in the array you donkey!'
+  } );
 });
 
 
