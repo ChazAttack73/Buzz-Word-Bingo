@@ -36,7 +36,7 @@ app.post( '/buzzword', function ( req, res ) {
     'message' : 'buzzWord has been added to the array you cheeky monkey!'
   };
 
-  if ( buzzArr.length > 0 ) {
+  if( buzzArr.length > 0 ) {
     for( var i = 0; i < buzzArr.length; i++ ) {
       if( buzzArr[i].buzzWord === req.body.buzzWord ) {
         return res.send( duplicateMessage );
@@ -50,7 +50,7 @@ app.post( '/buzzword', function ( req, res ) {
 
 //========== Updates the buzzWord's 'heard' property to true and updates the score
 app.put( '/buzzword', function ( req, res ) {
-  if ( buzzArr.length > 0 ) {
+  if( buzzArr.length > 0 ) {
     for( var i = 0; i < buzzArr.length; i++ ) {
       if( buzzArr[i].buzzWord === req.body.buzzWord ) {
         buzzArr[i].heard = true;
@@ -71,7 +71,19 @@ app.put( '/buzzword', function ( req, res ) {
 
 //========== Deletes a buzzWord from the array, taking it out of play
 app.delete( '/buzzword', function ( req, res ) {
-
+  if( buzzArr.length > 0 ) {
+    for( var i = 0; i < buzzArr.length; i++ ) {
+      if( buzzArr[i].buzzWord === req.body.buzzWord ) {
+        buzzArr.splice( buzzArr[i], 1 );
+        return res.send( {
+          'message' : 'You\'ve deleted ' + buzzArr[i].buzzWord + ' from the array!'
+        });
+      }
+    }
+  }
+  res.send( {
+    'message' : req.body.buzzWord + ' was not in the array! No changes made!'
+  })
 });
 
 
