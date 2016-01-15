@@ -1,8 +1,8 @@
 'use strict'
 
-var express = require( 'express' );
-var app = express();
-var bodyParser = require( 'body-parser' );
+const express = require( 'express' );
+const app = express();
+const bodyParser = require( 'body-parser' );
 
 app.use( express.static( 'public' ) );
 app.use( bodyParser.json({ type: 'application/json' } ) );
@@ -83,7 +83,7 @@ app.delete( '/buzzword', function ( req, res ) {
   }
   res.send( {
     'message' : req.body.buzzWord + ' was not in the array! No changes made!'
-  })
+  });
 });
 
 
